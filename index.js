@@ -6,9 +6,10 @@ const connectDB    = require('./config/db');
 const authRoutes     = require('./routes/auth');
 const productRoutes  = require('./routes/products');
 const categoryRoutes = require('./routes/categories');
-
+const path         = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 
 // Connect to MongoDB
 connectDB();
@@ -19,6 +20,18 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+// 1. Point to the Angular build folder
+app.use(express.static(path.join(__dirname, 'dist/CodvedaAngular')));
+
+// 2. Handle SPA routing: redirect all requests to index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/CodvedaAngular/index.html'));
+});
+
+// 3. Use dynamic port for Render
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => console.log(`Running on ${PORT}`));
 
 // Middleware to parse JSON request bodies
 app.use(express.json());

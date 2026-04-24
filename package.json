@@ -10,6 +10,7 @@
   "author": "Favortech",
   "type": "commonjs",
   "main": "index.js",
+    "start": "node index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
